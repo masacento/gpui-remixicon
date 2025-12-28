@@ -1,0 +1,17 @@
+[package]
+name = "gpui-remixicon"
+version = "0.1.0"
+edition = "2024"
+description = "RemixIcon icons for GPUI"
+license = "Apache-2.0"
+repository = "https://github.com/masacento/gpui-remixicon"
+
+[dependencies]
+gpui = "0.2.2"
+
+[build-dependencies]
+heck = "0.5"
+
+[[example]]
+name = "gallery"
+path = "examples/gallery.rs"

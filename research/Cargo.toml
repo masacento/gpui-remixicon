@@ -1,0 +1,48 @@
+[package]
+name = "gpui-demo"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gpui = "0.2.2"
+gpui-component = "0.5.0"
+gpui-component-assets = "0.5.0"
+anyhow = "1.0"
+comrak = "0.30"
+unidiff = "0.4"
+
+[[example]]
+name = "accordion"
+path = "examples/accordion.rs"
+
+[[example]]
+name = "textbox"
+path = "examples/textbox.rs"
+
+[[example]]
+name = "textinput"
+path = "examples/textinput.rs"
+
+[[example]]
+name = "filedrop"
+path = "examples/filedrop.rs"
+
+[[example]]
+name = "chatinput"
+path = "examples/chatinput.rs"
+
+[[example]]
+name = "markdown_simple"
+path = "examples/markdown_simple.rs"
+
+[[example]]
+name = "markdown_render"
+path = "examples/markdown_render.rs"
+
+[[example]]
+name = "diff_view"
+path = "examples/diff_view.rs"
+
+[[example]]
+name = "custom_icon"
+path = "examples/custom_icon.rs"
