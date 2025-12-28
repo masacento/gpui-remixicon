@@ -88,10 +88,23 @@ fn main() {
     for ((_, category_snake, category_camel), entries) in &icons {
         code.push_str(&format!("#[cfg(feature = \"{}\")]\n", category_snake));
         code.push_str(&format!("pub mod {} {{\n", category_snake));
+        code.push_str(&format!("    //! {} icons.\n", category_camel));
+        code.push_str("    //!\n");
+        code.push_str("    //! RemixIcon label → Rust variant\n");
+        code.push_str("    //!\n");
+        code.push_str("    //! | label | variant |\n");
+        code.push_str("    //! |---|---|\n");
+        for (variant, file_name, _) in entries {
+            code.push_str(&format!(
+                "    //! | `{}` | [`Icon::{}`] |\n",
+                file_name, variant
+            ));
+        }
         code.push_str("    use super::*;\n\n");
         code.push_str("    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]\n");
         code.push_str("    pub enum Icon {\n");
-        for (variant, _, _) in entries {
+        for (variant, file_name, _) in entries {
+            code.push_str(&format!("        /// RemixIcon label: `{}`\n", file_name));
             code.push_str(&format!("        {},\n", variant));
         }
         code.push_str("    }\n\n");
@@ -151,7 +164,11 @@ fn main() {
     code.push_str("pub enum RemixIconName {\n");
     for ((_, category_snake, category_camel), entries) in &icons {
         code.push_str(&format!("    #[cfg(feature = \"{}\")]\n", category_snake));
-        for (variant, _, _) in entries {
+        for (variant, file_name, _) in entries {
+            code.push_str(&format!(
+                "    /// RemixIcon label: `{}` (`{}::Icon::{}`)\n",
+                file_name, category_snake, variant
+            ));
             code.push_str(&format!("    {}{},\n", category_camel, variant));
         }
     }
