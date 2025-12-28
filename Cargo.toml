@@ -7,10 +7,55 @@ license = "Apache-2.0"
 repository = "https://github.com/masacento/gpui-remixicon"
 
 [dependencies]
+anyhow = "1"
 gpui = "0.2.2"
+rust-embed = "8"
 
 [build-dependencies]
 heck = "0.5"
+
+[features]
+default = ["all"]
+all = [
+    "arrows",
+    "buildings",
+    "business",
+    "communication",
+    "design",
+    "development",
+    "device",
+    "document",
+    "editor",
+    "finance",
+    "food",
+    "health_and_medical",
+    "logos",
+    "map",
+    "media",
+    "others",
+    "system",
+    "user_and_faces",
+    "weather",
+]
+arrows = []
+buildings = []
+business = []
+communication = []
+design = []
+development = []
+device = []
+document = []
+editor = []
+finance = []
+food = []
+health_and_medical = []
+logos = []
+map = []
+media = []
+others = []
+system = []
+user_and_faces = []
+weather = []
 
 [[example]]
 name = "gallery"

@@ -1,31 +1,5 @@
 use gpui::*;
-use gpui_remixicon::{Icon, arrows, system};
-use std::borrow::Cow;
-
-struct Assets;
-
-impl AssetSource for Assets {
-    fn load(&self, path: &str) -> Result<Option<Cow<'static, [u8]>>> {
-        let full_path = format!("{}/assets/{}", env!("CARGO_MANIFEST_DIR"), path);
-        match std::fs::read(&full_path) {
-            Ok(data) => Ok(Some(Cow::Owned(data))),
-            Err(_) => Ok(None),
-        }
-    }
-
-    fn list(&self, path: &str) -> Result<Vec<SharedString>> {
-        let full_path = format!("{}/assets/{}", env!("CARGO_MANIFEST_DIR"), path);
-        let mut results = Vec::new();
-        if let Ok(entries) = std::fs::read_dir(&full_path) {
-            for entry in entries.flatten() {
-                if let Some(name) = entry.file_name().to_str() {
-                    results.push(format!("{}/{}", path, name).into());
-                }
-            }
-        }
-        Ok(results)
-    }
-}
+use gpui_remixicon::{Assets, Icon, arrows, system};
 
 struct Gallery;
 

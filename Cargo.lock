@@ -2121,8 +2121,10 @@ dependencies = [
 name = "gpui-remixicon"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "gpui",
  "heck 0.5.0",
+ "rust-embed",
 ]
 
 [[package]]

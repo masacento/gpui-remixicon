@@ -13,12 +13,28 @@ Add to your `Cargo.toml`:
 gpui-remixicon = { git = "https://github.com/masacento/gpui-remixicon" }
 ```
 
+### Selective Import
+
+To reduce binary size, you can import only the icon categories you need:
+
+```toml
+[dependencies]
+gpui-remixicon = { git = "https://github.com/masacento/gpui-remixicon", default-features = false, features = ["arrows", "system"] }
+```
+
 ## Usage
 
 ### Basic Usage
 
 ```rust
-use gpui_remixicon::{Icon, system, arrows};
+use gpui::*;
+use gpui_remixicon::{Assets, Icon, system, arrows};
+
+fn main() {
+    // Assets includes embedded SVG icons
+    let app = Application::new().with_assets(Assets);
+    // ...
+}
 
 // Create an icon
 Icon::new(system::Icon::AddLine)
@@ -42,77 +58,48 @@ Icon::new(arrows::Icon::ArrowUpLine).color(gpui::red())
 | `.large()` | 24px |
 | `.custom_size(px(32.0))` | Custom |
 
-### Icon Categories
+### Icon Categories (Features)
 
-Icons are organized by category modules:
+Icons are organized by category modules. Each category can be enabled/disabled via Cargo features:
 
-- `arrows` - Arrow icons
-- `buildings` - Building icons
-- `business` - Business icons
-- `communication` - Communication icons
-- `design` - Design tools icons
-- `development` - Development icons
-- `device` - Device icons
-- `document` - Document icons
-- `editor` - Editor icons
-- `finance` - Finance icons
-- `food` - Food icons
-- `healthmedical` - Health & Medical icons
-- `logos` - Logo icons
-- `map` - Map icons
-- `media` - Media icons
-- `others` - Other icons
-- `system` - System icons
-- `userfaces` - User & Faces icons
-- `weather` - Weather icons
+| Feature | Module | Description |
+|---------|--------|-------------|
+| `arrows` | `arrows` | Arrow icons |
+| `buildings` | `buildings` | Building icons |
+| `business` | `business` | Business icons |
+| `communication` | `communication` | Communication icons |
+| `design` | `design` | Design tools icons |
+| `development` | `development` | Development icons |
+| `device` | `device` | Device icons |
+| `document` | `document` | Document icons |
+| `editor` | `editor` | Editor icons |
+| `finance` | `finance` | Finance icons |
+| `food` | `food` | Food icons |
+| `health_and_medical` | `health_and_medical` | Health & Medical icons |
+| `logos` | `logos` | Logo icons |
+| `map` | `map` | Map icons |
+| `media` | `media` | Media icons |
+| `others` | `others` | Other icons |
+| `system` | `system` | System icons |
+| `user_and_faces` | `user_and_faces` | User & Faces icons |
+| `weather` | `weather` | Weather icons |
+| `all` | - | All categories (default) |
 
-### Asset Setup
+### Category-Specific Assets
 
-You need to configure your application's `AssetSource` to load the SVG files:
+Each category also provides its own `Assets` struct if you only need icons from one category:
 
 ```rust
-use gpui::*;
-use std::borrow::Cow;
+use gpui_remixicon::arrows::{ArrowsAssets, Icon};
 
-struct Assets;
-
-impl AssetSource for Assets {
-    fn load(&self, path: &str) -> Result<Option<Cow<'static, [u8]>>> {
-        // Load from your assets directory
-        let full_path = format!("{}/assets/{}", env!("CARGO_MANIFEST_DIR"), path);
-        match std::fs::read(&full_path) {
-            Ok(data) => Ok(Some(Cow::Owned(data))),
-            Err(_) => Ok(None),
-        }
-    }
-
-    fn list(&self, path: &str) -> Result<Vec<SharedString>> {
-        let full_path = format!("{}/assets/{}", env!("CARGO_MANIFEST_DIR"), path);
-        let mut results = Vec::new();
-        if let Ok(entries) = std::fs::read_dir(&full_path) {
-            for entry in entries.flatten() {
-                if let Some(name) = entry.file_name().to_str() {
-                    results.push(format!("{}/{}", path, name).into());
-                }
-            }
-        }
-        Ok(results)
-    }
-}
-
-fn main() {
-    let app = Application::new().with_assets(Assets);
-    // ...
-}
+let app = Application::new().with_assets(ArrowsAssets);
 ```
-
-Copy the `assets/icons` directory from this crate to your project's assets directory.
 
 ### Example
 
 ```rust
 use gpui::*;
-use gpui_remixicon::{Icon, system, arrows};
+use gpui_remixicon::{Assets, Icon, system, arrows};
 
 struct MyView;
 
@@ -125,6 +112,17 @@ impl Render for MyView {
             .child(Icon::new(system::Icon::CheckFill).medium())
             .child(Icon::new(arrows::Icon::ArrowRightLine).large())
     }
+}
+
+fn main() {
+    let app = Application::new().with_assets(Assets);
+
+    app.run(move |cx| {
+        cx.open_window(WindowOptions::default(), |_window, cx| {
+            cx.new(|_| MyView)
+        })
+        .unwrap();
+    });
 }
 ```
 

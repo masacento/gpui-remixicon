@@ -10,5 +10,8 @@ pub trait RemixIcon {
     fn path(self) -> SharedString;
 }
 
-// Include generated icon names
+// Include generated icon names (category modules and RemixIconName enum)
 include!(concat!(env!("OUT_DIR"), "/icon_name.rs"));
+
+// Include generated assets (Assets struct with AssetSource impl)
+include!(concat!(env!("OUT_DIR"), "/assets.rs"));
