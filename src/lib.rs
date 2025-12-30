@@ -14,7 +14,7 @@
 
 mod icon;
 
-pub use icon::{Icon, IconSize};
+pub use icon::{Icon, IconNamed, Sizable, Size};
 
 use gpui::SharedString;
 

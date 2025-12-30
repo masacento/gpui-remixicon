@@ -1,6 +1,6 @@
 [package]
 name = "gpui-remixicon"
-version = "0.1.4"
+version = "0.2.0"
 edition = "2024"
 description = "RemixIcon icons for GPUI"
 license = "Apache-2.0"
@@ -14,6 +14,7 @@ version = "4.7.0"
 anyhow = "1"
 gpui = "0.2.2"
 rust-embed = "8"
+gpui-component = { version = "0.5.0", optional = true }
 
 [build-dependencies]
 heck = "0.5"
@@ -41,6 +42,7 @@ all = [
     "user_and_faces",
     "weather",
 ]
+gpui-component = ["dep:gpui-component"]
 arrows = []
 buildings = []
 business = []
@@ -64,3 +66,8 @@ weather = []
 [[example]]
 name = "gallery"
 path = "examples/gallery.rs"
+
+[[example]]
+name = "gpui_icon"
+path = "examples/gpui_icon.rs"
+required-features = ["gpui-component"]

@@ -122,6 +122,32 @@ fn main() {
         code.push_str("        }\n");
         code.push_str("    }\n\n");
 
+        // Implement gpui_component::IconNamed when feature is enabled
+        code.push_str("    #[cfg(feature = \"gpui-component\")]\n");
+        code.push_str("    impl gpui_component::IconNamed for Icon {\n");
+        code.push_str("        fn path(self) -> SharedString {\n");
+        code.push_str("            match self {\n");
+        for (variant, _, asset_path) in entries {
+            code.push_str(&format!(
+                "                Self::{} => \"{}\".into(),\n",
+                variant, asset_path
+            ));
+        }
+        code.push_str("            }\n");
+        code.push_str("        }\n");
+        code.push_str("    }\n\n");
+
+        // Implement IntoElement via gpui_component::Icon when feature is enabled
+        code.push_str("    #[cfg(feature = \"gpui-component\")]\n");
+        code.push_str("    impl gpui::IntoElement for Icon {\n");
+        code.push_str(
+            "        type Element = <gpui_component::Icon as gpui::IntoElement>::Element;\n\n",
+        );
+        code.push_str("        fn into_element(self) -> Self::Element {\n");
+        code.push_str("            gpui_component::Icon::new(self).into_element()\n");
+        code.push_str("        }\n");
+        code.push_str("    }\n\n");
+
         // Generate Assets struct for this category
         code.push_str(&format!(
             "    /// Assets for {} icons. Implements `AssetSource` for GPUI.\n",
